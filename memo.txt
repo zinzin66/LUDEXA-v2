@@ -1,0 +1,35 @@
+MÉMOIRE DE TRANSITION : LUDEXA V2 (JAVA/ANDROID)
+L'Objectif Principal : Créer un moteur no-code 100 % natif Android, résolvant définitivement l'importation d'assets via l'explorateur du téléphone, avec une architecture simple.
+
+----Phase 1 : Les Fondations des Données (Architecture simple)
+Ce que l'on remplace : scene.lua
+L'action : Créer les classes Java de base pour représenter les objets du jeu.
+Détails : Nous allons coder des classes très lisibles (ObjetBase, Sprite, Texte, Bouton). Elles contiendront uniquement les propriétés (X, Y, largeur, couleur). On garde un code volontairement épuré, sans logique d'affichage complexe pour le moment, afin de s'assurer que l'architecture est solide.
+ok
+----Phase 2 : Le Cœur Logique et le Blueprint
+Ce que l'on remplace : logique.lua, nodes_exec.lua, runtime.lua
+L'action : Traduire le système de programmation visuelle.
+Détails : Création des classes pour les "Nœuds" (Événements, Actions, Variables) et du système qui les relie (les Câbles). Nous mettrons ensuite en place le gestionnaire d'exécution qui lira ces nœuds pour appliquer les mouvements et la logique aux objets créés en Phase 1.
+ok
+---- Phase 3 : L'Interface Native et l'Éditeur
+Ce que l'on remplace : editeur.lua, menu.lua, ui.lua
+L'action : Construire l'environnement de travail avec les outils d'Android.
+Détails : C'est ici que l'on gagne notre pari. Nous allons créer l'Inspecteur, l'Arborescence et l'Espace Logique en utilisant les vrais menus et boutons d'Android. L'interaction tactile (glisser-déposer, zoom) sera gérée de manière native pour une fluidité maximale.
+
+---- Phase 4 : Gestion des Fichiers et Assets (Le point critique)
+Ce que l'on remplace : assets.lua, projet.lua, json.lua
+L'action : Connecter le moteur au système de stockage du téléphone.
+Détails : Mise en place de l'ouverture sécurisée du sélecteur de fichiers Android pour importer facilement images et audios. Nous utiliserons une bibliothèque standard (comme Gson) pour remplacer ton encodeur JSON et sauvegarder/charger les projets proprement.
+
+---- Phase 5 : La Boucle de Rendu et la Compilation Automatisée
+Ce que l'on remplace : main.lua et les fonctions love.draw()
+L'action : L'affichage final et la préparation de l'export.
+Détails : L'assemblage final du moteur de rendu visuel. La stratégie est de repousser la compilation de l'application à ce moment-là. Le projet sera d'abord développé jusqu'à un stade avancé et fonctionnel avant d'affronter les compilations complexes. Nous mettrons en place GitHub Actions pour que le serveur génère les fichiers APK de test automatiquement, ce qui évitera d'avoir à manipuler ou réparer du code de configuration ardu manuellement.
+
+fait: 
+Super ! Le squelette architectural de Ludexa est maintenant extrêmement complet et solide.
+Nous avons posé toutes les fondations nécessaires pour un moteur modulaire et évolutif :
+Les composants visuels et logiques : Les objets de base, les scènes, et le système de nœuds (Blueprints).
+Le moteur interne : La boucle de jeu dynamique et le gestionnaire de mémoire pour les ressources.
+L'interface créateur : La capture des commandes tactiles et le pilotage des états de l'éditeur.
+Le pipeline de sortie : Les paramètres d'exportation, le générateur d'application, et le dictionnaire de traduction.

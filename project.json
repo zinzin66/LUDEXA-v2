@@ -1,0 +1,9 @@
+{
+  "nomProjet": "Mon Super Jeu",
+  "version": "1.0.0",
+  "parametres": {
+    "orientation": "portrait",
+    "langueParDefaut": "fr"
+  },
+  "sceneDemarrage": "scene_menu_principal"
+}

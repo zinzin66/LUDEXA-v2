@@ -1,0 +1,26 @@
+Phase 1 : Les Fondations Visuelles (Données et Scène)
+Cette section définit tout ce qui est visible ou interactif à l'écran. La logique est de regrouper les propriétés communes dans un "moule" parent, puis de créer des enfants spécifiques pour éviter la répétition de code.
+ObjetBase.java : La classe abstraite parente. Elle définit les propriétés universelles de tout élément à l'écran (ID unique, nom, type, position X, position Y, largeur, hauteur).
+Sprite.java : Gère l'affichage des images. Ajoute l'identifiant de l'asset visuel (ex: hero.png) et les options de retournement (flipX, flipY).
+Texte.java : Gère l'affichage typographique. Ajoute le contenu textuel, la police, la taille et la couleur.
+Bouton.java : Gère les zones cliquables. Ajoute un texte interne, des couleurs, et un état mémorisant s'il est actuellement pressé.
+Checkbox.java : Gère les cases à cocher. Ajoute un simple état booléen (vrai/faux) pour mémoriser si elle est cochée.
+Input.java : Gère les champs de saisie clavier. Ajoute un état pour savoir si le champ est actuellement actif/sélectionné par l'utilisateur.
+Slider.java : Gère les barres de défilement. Ajoute une valeur actuelle, un minimum et un maximum.
+Scene.java : Le conteneur visuel d'un écran (ex: "Menu", "Niveau 1"). Il possède un ID, un nom, et surtout une liste globale capable d'accueillir n'importe quel objet héritant de ObjetBase.
+Phase 2 : Le Cœur Logique (Système de Nœuds Visuels)
+Cette section remplace les anciens scripts par un système de programmation visuelle (Nœuds, Ports, Liens). Tout est séparé pour permettre l'ajout infini de nouvelles fonctionnalités sans modifier le cœur du moteur.
+Port.java : Représente les connecteurs d'un nœud. Définit le nom, le type (exécution ou donnée) et une éventuelle valeur saisie manuellement.
+NoeudBase.java : La classe abstraite parente pour la logique. Elle définit l'ID, le nom, la catégorie (événement, action, math), la position dans l'éditeur visuel (X, Y), ainsi que les listes de ports d'entrée et de sortie.
+Lien.java : Représente le câble qui relie deux nœuds. Il stocke l'ID et l'index du port du nœud de départ, ainsi que l'ID et l'index du port du nœud d'arrivée.
+Exemples de Nœuds : Des classes très courtes comme NoeudEventStart.java (génère un signal de départ) ou NoeudActionDeplacer.java (reçoit un signal, une cible et des coordonnées pour effectuer une action).
+Blueprint.java : Le tableau de bord logique d'une scène. Il contient simplement la liste de tous les nœuds placés par l'utilisateur et la liste de tous les liens qui les connectent.
+Phase 3 : Le Conteneur Global et la Sauvegarde
+Cette section chapeaute l'ensemble du travail de l'utilisateur pour en faire un véritable jeu complet et exportable.
+Projet.java : La classe suprême. Elle contient les métadonnées du jeu (Nom, Version, Résolution cible) ainsi que les listes contenant toutes les Scenes et tous les Blueprints.
+L'Arborescence de Sauvegarde sur le disque :
+Cette structure orientée objet permet une sauvegarde propre en fichiers textes (JSON) séparés, évitant les fichiers géants impossibles à lire ou à déboguer.
+Dossier assets/ : Contient les images, polices et sons bruts.
+Dossier scenes/ : Contient les fichiers de sauvegarde visuelle (ex: niveau1.json).
+Dossier logique/ : Contient les fichiers de sauvegarde comportementale (ex: blueprint_niveau1.json).
+Fichier project.json : Le fichier racine généré par Projet.java qui lie le tout.
