@@ -1,0 +1,26 @@
+{
+  "idBlueprint": "logique_bouton_jouer",
+  "noeuds": [
+    {
+      "id": "noeud_1",
+      "type": "EvenementClic",
+      "positionEditeurX": 100,
+      "positionEditeurY": 150
+    },
+    {
+      "id": "noeud_2",
+      "type": "ActionChangerScene",
+      "sceneCible": "scene_niveau_1",
+      "positionEditeurX": 400,
+      "positionEditeurY": 150
+    }
+  ],
+  "liens": [
+    {
+      "depuisNoeud": "noeud_1",
+      "depuisPort": "sortie",
+      "versNoeud": "noeud_2",
+      "versPort": "entree"
+    }
+  ]
+}
