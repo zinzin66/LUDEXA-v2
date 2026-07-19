@@ -1,0 +1,23 @@
+{
+  "idScene": "scene_menu_principal",
+  "couleurFond": "#222222",
+  "objets": [
+    {
+      "id": "texte_titre",
+      "type": "Texte",
+      "x": 540,
+      "y": 200,
+      "cleTraduction": "TITRE_JEU"
+    },
+    {
+      "id": "bouton_jouer",
+      "type": "Bouton",
+      "x": 540,
+      "y": 800,
+      "largeur": 300,
+      "hauteur": 100,
+      "cleTraduction": "BTN_NOUVELLE_PARTIE",
+      "blueprintId": "logique_bouton_jouer"
+    }
+  ]
+}
