@@ -1,0 +1,65 @@
+// Fichier : PlanTravailBlueprint.java
+
+public class PlanTravailBlueprint {
+
+    // Le Blueprint actif (qui contient les listes de nœuds et de liens)
+    public Blueprint blueprintActif;
+
+    // Variables pour gérer la navigation dans l'espace infini
+    public float cameraX;
+    public float cameraY;
+    public float niveauZoom;
+
+    // Le nœud actuellement sélectionné (pour le déplacer ou modifier ses valeurs)
+    public NoeudBase noeudSelectionne;
+
+    public PlanTravailBlueprint() {
+        this.blueprintActif = null;
+        this.noeudSelectionne = null;
+        
+        // Initialisation de la vue : centré avec un zoom normal
+        this.cameraX = 0f;
+        this.cameraY = 0f;
+        this.niveauZoom = 1.0f;
+    }
+
+    // Charge la logique d'une scène pour l'afficher
+    public void chargerBlueprint(Blueprint blueprint) {
+        this.blueprintActif = blueprint;
+    }
+
+    // Ajoute un nouveau nœud (Démarrage, Clic, Déplacer, etc.)
+    public void ajouterNoeud(NoeudBase nouveauNoeud, float positionX, float positionY) {
+        if (this.blueprintActif != null) {
+            nouveauNoeud.x = positionX;
+            nouveauNoeud.y = positionY;
+            // La logique future dira : "Ajoute ce nœud à la liste du blueprintActif"
+        }
+    }
+
+    // Gère le déplacement dans l'espace (le "Pan" de la caméra)
+    public void deplacerCamera(float deplacementX, float deplacementY) {
+        this.cameraX += deplacementX;
+        this.cameraY += deplacementY;
+        // La logique future dira : "Demande à l'interface de rafraîchir l'écran"
+    }
+
+    // Gère le rapprochement ou l'éloignement (Pinch-to-zoom natif)
+    public void ajusterZoom(float facteurZoom) {
+        this.niveauZoom *= facteurZoom;
+        
+        // Sécurité pour éviter de zoomer trop près ou trop loin
+        if (this.niveauZoom < 0.2f) this.niveauZoom = 0.2f;
+        if (this.niveauZoom > 3.0f) this.niveauZoom = 3.0f;
+    }
+
+    // Méthode de rendu (dessin visuel)
+    public void dessiner() {
+        if (this.blueprintActif != null) {
+            // La logique future dira :
+            // 1. "Applique les décalages de caméra et le zoom"
+            // 2. "Dessine tous les câbles (Lien) en premier plan"
+            // 3. "Dessine tous les nœuds (NoeudBase) par-dessus les câbles"
+        }
+    }
+}

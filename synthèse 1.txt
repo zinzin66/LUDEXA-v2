@@ -1,0 +1,30 @@
+Document de Synthèse Architectural : LUDEXA
+1. Philosophie Globale
+LUDEXA repose sur une architecture modulaire stricte divisée en trois piliers. Le code est organisé sous forme de "coquilles" (classes et méthodes vides) qui définissent les interactions sans nécessiter de compilation complexe prématurée. L'objectif est de séparer totalement la donnée mathématique, l'affichage visuel et la logique d'exécution.
+2. Arborescence des Fichiers (Les 3 Piliers)
+Voici la structure de ton projet, avec le rôle de chaque composant :
+Main.java : La Tour de Contrôle. Le point d'entrée unique de l'application qui crée, initialise et relie tous les autres modules entre eux (Injection de dépendances).
+🗄️ Pilier 1 : Les Données (Modèles)
+Le squelette abstrait de ton jeu. Ces classes ne font aucun calcul et n'affichent rien, elles stockent uniquement des informations.
+Blueprint.java : L'objet global qui contient la liste de tous les nœuds et de tous les liens d'un niveau ou d'un script.
+NoeudBase.java : La classe mère de tous les nœuds (position X/Y, identifiant unique).
+Port.java : Les points d'ancrage (Entrée/Sortie) sur un nœud.
+LienData.java : Le "câble" mathématique qui connecte un port de sortie à un port d'entrée.
+🎨 Pilier 2 : L'Interface (Vues)
+Tout ce qui est visible à l'écran et avec lequel l'utilisateur interagit.
+CanvasScene.java : L'écran de rendu final (le jeu en lui-même).
+PlanTravailBlueprint.java : L'espace de travail avec la grille où l'utilisateur déplace et relie ses nœuds.
+PanneauRessources.java : Le menu latéral permettant de glisser-déposer de nouveaux nœuds ou images.
+⚙️ Pilier 3 : La Logique (Systèmes & Moteurs)
+Les "cerveaux" de l'application qui traitent les actions en arrière-plan.
+GestionnaireEntrees.java : Capte les clics et le tactile, puis traduit ces gestes en actions pour le reste du moteur.
+GestionnaireHistorique.java : Gère les annulations (Undo/Redo) via le modèle du Command Pattern.
+GestionnaireSauvegarde.java : Transforme le Blueprint en fichier texte (ex: JSON avec Gson) et inversement.
+MoteurLogique.java : Le lecteur qui parcourt les nœuds un par un, suit les câbles et exécute les instructions de jeu.
+BouclePrincipale.java : La Game Loop qui tourne en continu (60 FPS), séparant de manière stricte la mise à jour des calculs (mettreAJour) du rendu visuel (dessiner).
+3. Les Concepts Clés à Retenir
+Le Câblage Centralisé (Static Injection) : Tous les modules sont indépendants. C'est uniquement le fichier Main.java qui se charge de les présenter les uns aux autres. En rendant les instances static, n'importe quel fichier peut appeler un système (ex: Main.systemeSauvegarde.sauvegarder()) sans s'emmêler dans des références complexes.
+Séparation Modèle-Vue : Le Blueprint (les données) ne sait pas à quoi il ressemble. Le PlanTravailBlueprint (la vue) ne comprend pas la logique, il se contente de dessiner ce que le Blueprint contient.
+Le Command Pattern : Chaque action majeure (ajouter un nœud, lier un câble) est encapsulée dans un objet "Commande" contenant une méthode executer() et une méthode annuler(). Cela permet de naviguer librement dans l'historique du projet.
+Le Flux Nodal en Chaîne : L'exécution du jeu visuel se fait par réaction en chaîne. Le MoteurLogique lit un nœud, exécute son code métier, vérifie quel nœud est branché sur son port "Suivant", puis s'appelle lui-même pour lire ce nouveau nœud.
+Félicitations pour cette excellente base de conception architecturale. Ce squelette te garantit un développement futur serein, modulaire et hautement évolutif !

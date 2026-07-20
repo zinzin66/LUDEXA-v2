@@ -1,0 +1,151 @@
+# LUDEXA — Feuille de route (version Java/Android)
+
+**Objectif** : moteur no-code 100% natif Android, résolvant l'import d'assets via l'explorateur du téléphone, avec une architecture modulaire simple (classe parente + enfants spécifiques, données séparées de la logique, sauvegarde en JSON éclaté par dossiers).
+
+---
+
+## Vue d'ensemble — 4 piliers / 14 phases
+
+| Pilier | Contenu | Statut |
+|---|---|---|
+| 1. Squelette et Données | Fichiers, variables, undo/redo | 🟡 en cours |
+| 2. Interface Utilisateur | Hub, éditeur de scène, éditeur Blueprint | ⬜ à faire |
+| 3. Le Cerveau (logique visuelle) | Nœuds, câbles, catégories Event/Condition/Action | 🟡 en cours (2 nœuds faits) |
+| 4. Moteur sous le capot | Boucle double, cache assets, export/Player Shell | ⬜ à faire |
+
+---
+
+## Pilier 1 — Le Squelette et les Données
+
+### Phase 1 : Fondations visuelles (Données et Scène)
+Classe abstraite parente `ObjetBase` + enfants spécifiques pour éviter la répétition.
+
+- [x] `ObjetBase.java` — ID, nom, type, X, Y, largeur, hauteur
+- [x] `Sprite.java` — asset visuel (ex: hero.png), flipX/flipY
+- [x] `Texte.java` — contenu, police, taille, couleur
+- [x] `Bouton.java` — texte interne, couleurs, état pressé
+- [x] `Checkbox.java` — état booléen coché
+- [x] `Input.java` — état actif/sélectionné
+- [x] `Slider.java` — valeur actuelle, min, max
+- [x] `Scene.java` — ID, nom, liste d'objets (ObjetBase)
+- [x] `Projet.java` — métadonnées (nom, version, résolution), listes de Scenes et Blueprints
+
+### Mémoire / Variables
+- [ ] Variables **globales** (stockées dans `Projet`, persistent)
+- [ ] Variables **locales** (stockées dans `Scene`, effacées en fin de niveau)
+- [x] `Variable.java` (fichier créé, à vérifier si logique globale/locale est implémentée)
+- [x] `GestionnaireVariables.java`
+
+### Undo/Redo
+- [ ] Système d'historique basé sur le **Patron de Commande** (Command Pattern)
+- [x] `Commande.java`
+- [x] `GestionnaireHistorique.java`
+
+### Sauvegarde disque
+Arborescence : `assets/`, `scenes/`, `logique/`, `project.json` à la racine.
+
+- [x] `SceneData.java`, `ObjetSceneData.java` — structures de sauvegarde scène
+- [x] `BlueprintData.java`, `NoeudData.java`, `LienData.java` — structures de sauvegarde logique
+- [x] `SauvegardeScene.java`, `SauvegardeLogique.java`
+- [ ] Intégration Gson (ou équivalent) pour sérialisation JSON réelle (prévu Phase 4)
+
+---
+
+## Pilier 2 — L'Interface Utilisateur
+
+### Hub de démarrage
+- [x] `EcranDemarrage.java` — langue, création/chargement de projet
+
+### Éditeur de Scène
+Interface paysage : Canvas central + menu ressources rétractable à gauche (Scènes/Assets/Variables) + Inspecteur à droite.
+
+- [ ] Canvas central (rendu + manipulation des objets)
+- [ ] Panneau gauche rétractable (Scènes / Assets / Variables)
+- [ ] Inspecteur de propriétés à droite
+- [x] `InterfacePrincipale.java`
+- [x] `EtatEditeur.java`
+
+### Éditeur Blueprint
+Bibliothèque de nœuds à gauche, plan de travail infini au centre, popup de saisie de valeurs.
+
+- [ ] Bibliothèque de nœuds (panneau gauche)
+- [ ] Plan de travail infini (zoom/pan)
+- [ ] Popup de saisie de valeur sur les ports
+- [x] `InterfaceBlueprint.java`
+
+### Interactions tactiles natives
+- [x] `GestionnaireEntrees.java`
+- [ ] Glisser-déposer natif
+- [ ] Zoom natif
+
+---
+
+## Pilier 3 — Le Cerveau (Logique Visuelle)
+
+### Système de base
+- [x] `Port.java` — nom, type (exécution/donnée), valeur manuelle
+- [x] `NoeudBase.java` — ID, nom, catégorie, position éditeur, ports entrée/sortie
+- [x] `Lien.java`/`LienData.java` — câble entre deux ports
+- [x] `Blueprint.java` — liste de nœuds + liste de liens d'une scène
+
+### Catalogue de nœuds — 3 familles
+- **Événements (rouge)** — déclencheurs : Départ, Toucher, Collision...
+  - [x] `NoeudEventStart.java` — "Au Démarrage", 0 entrée, 1 sortie exécution ✅ fait
+  - [ ] Nœud Toucher/Tap
+  - [ ] Nœud Collision
+  - [ ] *(reste à définir : la suite de "l'Encyclopédie des Nœuds")*
+- **Conditions (jaune)** — Si, Comparer...
+  - [ ] Aucun nœud condition créé pour l'instant
+- **Actions (bleu)** — Déplacer, Changer Variable, Charger Scène...
+  - [x] `NoeudActionDeplacer.java` — reçoit exécution + cible + coordonnées X/Y ✅ fait
+  - [ ] Nœud Changer Variable
+  - [ ] Nœud Charger Scène
+  - [ ] *(reste à définir)*
+
+> 👉 **Prochaine étape naturelle** : continuer l'Encyclopédie des Nœuds — lister et coder les nœuds Événements restants, puis Conditions, puis Actions.
+
+---
+
+## Pilier 4 — Le Moteur sous le capot
+
+### Phase 13 : Moteur d'exécution et gestion mémoire
+Double boucle (Dual-Engine Loop) pour la performance.
+
+- [ ] `MoteurLogique` — met à jour l'état, lit les variables, évalue les Blueprints (arrière-plan)
+- [ ] `MoteurGraphique` — rendu visuel à 60 FPS, indépendant de la logique
+- [x] `MoteurLogique.java`, `MoteurGraphique.java` (fichiers créés)
+- [x] `BoucleDeJeu.java`, `BouclePrincipale.java`
+- [ ] Stratégie de cache dynamique des assets (charger/libérer selon la scène active)
+- [x] `GestionnaireAssets.java` (fichier créé, logique de cache à implémenter)
+
+### Phase 4 : Fichiers et Assets (point critique)
+- [ ] Sélecteur de fichiers Android natif (import images/audio)
+- [ ] Intégration Gson pour remplacer l'encodeur JSON maison
+
+### Phase 14 : Pipeline d'export — "Player Shell"
+- [ ] Concept de coquille : le jeu exporté = lecteur vierge + données
+- [ ] Exclusion de tout ce qui est éditeur (UI créateur, grille Blueprint, Undo/Redo) à l'export
+- [ ] Compilation légère : APK final = Moteur d'exécution + JSON du niveau + assets uniquement
+- [x] `ParametresExport.java`, `ExportateurProjet.java`, `GenerateurJeu.java` (fichiers créés, logique à implémenter)
+- [ ] GitHub Actions pour compilation automatisée des APK de test (repoussé volontairement à un stade avancé du projet)
+
+### Divers
+- [x] `GestionnaireTraduction.java` — dictionnaire de traduction (fichier créé, contenu à vérifier)
+
+---
+
+## Résumé — Ce qui est fait vs à faire
+
+**Fait (structure/fichiers créés) :**
+Toutes les classes de données visuelles (Pilier 1, catégorie C), toutes les structures de sauvegarde (catégorie E), le squelette de l'éditeur et du moteur (fichiers créés mais logique interne à vérifier/compléter), 2 nœuds sur un catalogue encore ouvert (NoeudEventStart, NoeudActionDeplacer).
+
+**Réellement à développer maintenant (logique, pas juste fichiers) :**
+1. Finir l'Encyclopédie des Nœuds (Événements → Conditions → Actions)
+2. Undo/Redo réel (Command Pattern)
+3. Variables globales vs locales (logique de portée)
+4. Éditeur de scène : canvas + panneaux + inspecteur (UI native)
+5. Éditeur Blueprint : plan de travail infini + drag & drop + popup valeurs
+6. Double boucle moteur (Logique/Graphique) à 60 FPS
+7. Cache dynamique des assets
+8. Sélecteur de fichiers Android + Gson
+9. Export Player Shell (repoussé à un stade avancé, volontairement)

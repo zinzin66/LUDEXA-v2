@@ -33,3 +33,46 @@ Les composants visuels et logiques : Les objets de base, les scènes, et le syst
 Le moteur interne : La boucle de jeu dynamique et le gestionnaire de mémoire pour les ressources.
 L'interface créateur : La capture des commandes tactiles et le pilotage des états de l'éditeur.
 Le pipeline de sortie : Les paramètres d'exportation, le générateur d'application, et le dictionnaire de traduction.
+
+-----
+L'Architecture Globale de Ludexa (Phases 1 à 12)
+Nous pouvons regrouper nos 12 phases en 4 grands piliers fondamentaux.
+Pilier 1 : Le Squelette et les Données (La Fondation)
+Les Fichiers : Une arborescence propre avec un fichier maître project.json à la racine, et deux dossiers dédiés (scenes/ et logique/).
+La Mémoire (Variables) : Un système scindé en deux. Des variables Globales (stockées dans le Projet pour persister) et des variables Locales (stockées dans les Scènes pour s'effacer à la fin du niveau).
+Le Filet de Sécurité (Undo/Redo) : Un système d'historique basé sur le "Patron de Commande" pour annuler ou refaire n'importe quelle action sans casser le projet.
+Pilier 2 : L'Interface Utilisateur (L'Outil)
+Le Hub de Démarrage : L'écran d'accueil pour la langue et la création/chargement de projets.
+L'Éditeur de Scène : Une interface tout en paysage avec un Canvas central, un menu de ressources rétractable à gauche (Scènes, Assets, Variables), et un Inspecteur de propriétés à droite.
+L'Éditeur Blueprint : L'espace de programmation visuelle avec la bibliothèque de nœuds à gauche, le plan de travail infini au centre, et une fenêtre pop-up intelligente pour saisir des valeurs.
+Pilier 3 : Le Cerveau (La Logique Visuelle)
+Le Catalogue de Nœuds : La division de la logique en trois familles distinctes :
+Les Événements (Rouge) : Les déclencheurs (Départ, Toucher, Collision).
+Les Conditions (Jaune) : Les aiguillages (Si, Comparer).
+Les Actions (Bleu) : Les conséquences (Déplacer, Changer Variable, Charger Scène).
+Le Système de Câbles : La communication entre les nœuds via des ports d'entrée et de sortie.
+Pilier 4 : Le Moteur Sous le Capot (L'Exécution)
+Le Traducteur (Génération JSON) : Le mécanisme qui lit ce que tu as fait dans l'interface visuelle et l'écrit en texte propre dans les dossiers du jeu.
+La Boucle Principale (Le Rendu) : Le cœur qui tourne à 60 FPS, divisé en un Moteur Logique (qui calcule les déplacements et les événements) et un Moteur Graphique (qui dessine l'image finale sur l'écran).
+La Suite du Plan
+Ton moteur est désormais intégralement pensé de haut en bas. Toutes les pièces du puzzle théorique sont sur la table, prêtes à être assemblées lorsque le projet entrera dans sa phase de production et de compilation.
+
+-------
+Voici le récapitulatif détaillé des deux dernières phases de notre architecture. Garder ces points majeurs clairement documentés est la meilleure approche pour s'y référer plus tard dans le développement, ce qui permet de conserver une vision parfaitement nette du fonctionnement interne avant d'avoir à manipuler la moindre syntaxe complexe.
+Phase 13 : Le Moteur d'Exécution et la Gestion en Mémoire
+Cette phase définit le cœur battant du jeu une fois que l'utilisateur appuie sur "Jouer", en s'assurant que le téléphone ne soit pas surchargé.
+La Double Boucle (Dual-Engine Loop) : Le traitement des données est scindé en deux systèmes parallèles pour garantir la performance.
+Le MoteurLogique s'occupe exclusivement de la "réflexion" en arrière-plan : il met à jour l'état du jeu, lit les variables et évalue les arbres de Blueprints (Événements/Conditions/Actions).
+Le MoteurGraphique s'occupe exclusivement du rendu visuel. Indépendant de la logique, il rafraîchit l'écran à 60 FPS (images par seconde) pour assurer une fluidité constante à l'œil.
+La Stratégie de Cache : Un système de gestion des ressources (Assets) optimisé pour l'environnement mobile. Au lieu de charger toutes les images et tous les sons du jeu d'un seul coup, Ludexa place les ressources en mémoire cache de manière dynamique, uniquement lorsqu'elles sont requises par la scène active, puis libère la mémoire lorsqu'elles ne sont plus utiles.
+Phase 14 : Le Pipeline d'Exportation (Le "Player Shell")
+Cette dernière phase détermine comment un projet créé dans Ludexa devient une véritable application Android indépendante et distribuable.
+Le Concept de la Coquille (Player Shell) : Nous avons défini une architecture où le jeu final est encapsulé dans un "lecteur" vierge.
+Exclusion de l'Éditeur : Le processus d'exportation est conçu pour filtrer et retirer absolument tout ce qui sert à la création (l'interface de l'éditeur, la grille de Blueprints, le système de Undo/Redo de l'historique).
+Compilation Légère : L'APK final généré ne contient strictement que trois éléments : le Moteur d'Exécution (défini en Phase 13), le fichier d'architecture JSON contenant le niveau, et les assets visuels/sonores. Cela garantit un package autonome, léger et dont les performances ne sont pas ralenties par le poids des outils de développement.
+la phase de l'« Encyclopédie des Nœuds ». Le premier élément indispensable est le déclencheur initial : le nœud qui lance l'exécution de ton Blueprint.
+Le Nœud de Départ : NoeudEventStart.java
+Ce script définit le bloc "Au Démarrage" (souvent appelé Start ou Begin Play dans les moteurs visuels). Sa particularité structurelle est très simple : il ne possède aucun port d'entrée (puisque rien ne se déclenche avant lui), mais il possède un port de sortie d'exécution pour propager le signa
+C'est noté. Puisque NoeudEventStart.java est en place, ton système dispose désormais de son point d'entrée logique officiel.
+Le nœud suivant dans l'ordre logique naturel est celui que tu as mentionné dans ta liste : NoeudActionDeplacer.java.
+C'est un nœud d'action typique qui, contrairement à l'événement de départ, a besoin de recevoir une impulsion d'exécution (entrée) et peut en envoyer une fois le déplacement terminé (sortie). Il possède également des ports pour recevoir des données (comme les coordonnées X et Y).

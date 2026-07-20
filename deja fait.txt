@@ -1,0 +1,28 @@
+Inventaire du Projet LUDEXA (Point d'étape)
+1. Le Cœur du Moteur (Hub et Synchronisation)
+Main.java : Le point d'entrée central qui instancie tous les gestionnaires.
+BouclePrincipale.java : Le Game Loop (tournant à 60 FPS) qui rythme le jeu.
+2. Les Fondations Logiques (L'ADN des Nœuds)
+NoeudBase.java : La classe mère dont héritent tous les autres nœuds.
+Port.java : Gère les points de connexion (Entrée/Sortie, Exécution/Donnée).
+MoteurLogique.java : Le lecteur qui va traverser les câbles d'un nœud à l'autre.
+3. L'Encyclopédie des Nœuds (Le Catalogue)
+🔴 Événements (Déclencheurs) :
+NoeudEventStart.java (Au lancement)
+NoeudEventToucher.java (Clic/Touch)
+NoeudEventCollision.java (Contact physique)
+NoeudEventUpdate.java (À chaque image)
+🟡 Conditions (Aiguillages) :
+NoeudConditionSi.java (Branchement Vrai/Faux)
+NoeudConditionComparer.java (Mathématiques/Logique)
+🔵 Actions (Exécutions) :
+NoeudActionDeplacer.java (Mouvement)
+NoeudActionChangerVariable.java (Modification de donnée)
+NoeudActionDetruire.java (Suppression d'entité)
+NoeudActionChargerScene.java (Changement de niveau)
+4. La Gestion des Données
+Variable.java : Le conteneur typé (Nom, Type, Valeur).
+GestionnaireVariables.java : Sépare et stocke les variables Globales et Locales.
+5. L'Éditeur et l'Historique (Command Pattern)
+Commande.java : L'interface définissant executer() et annuler().
+GestionnaireHistorique.java : Gère les piles (Stacks) pour le système Undo/Redo

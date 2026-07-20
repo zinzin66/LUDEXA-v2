@@ -1,15 +1,29 @@
+
+import java.util.UUID;
+import java.util.ArrayList;
+
 public class NoeudActionDeplacer extends NoeudBase {
+
+    public NoeudActionDeplacer() {
+        super();
+        
+        this.id = UUID.randomUUID().toString();
+        this.type = "ActionDeplacer";
+        this.nom = "Déplacer Objet";
+        
+        // Ports d'entrée : Un pour l'exécution, deux pour les données (X et Y)
+        this.portsEntree = new ArrayList<>();
+        this.portsEntree.add(new Port("entree_execution", "execution"));
+        this.portsEntree.add(new Port("X", "float"));
+        this.portsEntree.add(new Port("Y", "float"));
+        
+        // Port de sortie : Pour continuer la chaîne après le déplacement
+        this.portsSortie = new ArrayList<>();
+        this.portsSortie.add(new Port("sortie_execution", "execution"));
+    }
     
-    public NoeudActionDeplacer(float x, float y) {
-        super("Déplacer Objet", "action", x, y);
-        
-        // Ce dont le nœud a besoin pour fonctionner (Entrées)
-        ajouterEntree("Déclencheur", "exec"); // Le fil blanc qui lance l'action
-        ajouterEntree("Objet", "data");       // L'objet visuel cible
-        ajouterEntree("X", "data");           // La position cible X
-        ajouterEntree("Y", "data");           // La position cible Y
-        
-        // Ce que le nœud renvoie une fois terminé (Sorties)
-        ajouterSortie("Terminé", "exec");     // Le fil blanc pour passer à l'action suivante
+    public void executer() {
+        // La logique de déplacement réelle sera gérée par le MoteurLogique
+        // en lisant les valeurs fournies aux ports X et Y.
     }
 }

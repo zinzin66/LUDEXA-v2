@@ -1,0 +1,67 @@
+/ logique/logique_bouton_jouer.json
+/scene/scene_menu_principal.json
+/
+Blueprint.java
+BlueprintData.java
+BoucleDeJeu.java
+BouclePrincipale.java
+Bouton.java
+Checkbox.java
+Commande.java
+EcranDemarrage.java
+EtatEditeur.java
+ExportateurProjet.java
+GenerateurJeu.java
+ GestionnaireAssets.java
+GestionnaireEntrees.java
+GestionnaireHistorique.java
+GestionnaireTraduction.java
+GestionnaireVariables.java
+ Input.java
+InterfaceBlueprint.java
+InterfacePrincipale.java
+LienData.java
+MoteurGraphique.java
+MoteurLogique.java
+635 octet(s)
+NoeudActionDeplacer.java
+NoeudBase.java
+NoeudData.java
+NoeudEventStart.java
+ObjetBase.java
+ObjetSceneData.java
+ParametresExport.java
+Port.java
+project.json
+Projet.java
+SauvegardeLogique.java
+SauvegardeScene.java
+Scene.java
+SceneData.java
+Slider.java
+Sprite.java
+Texte.java
+Variable.java
+----------
+2. L'Organisation de ton Écosystème
+Pour t'aider à t'y retrouver sur ta tablette, voici comment tes 42 fichiers se divisent naturellement :
+A. L'Éditeur (L'interface de création Ludexa)
+EtatEditeur.java, InterfacePrincipale.java, InterfaceBlueprint.java
+GestionnaireHistorique.java (pour les annulations/rétablissements)
+ParametresExport.java, ExportateurProjet.java, GenerateurJeu.java
+B. Le Moteur (Le cœur qui fait tourner le jeu)
+MoteurGraphique.java, MoteurLogique.java
+GestionnaireAssets.java, GestionnaireEntrees.java, GestionnaireVariables.java, GestionnaireTraduction.java
+BouclePrincipale.java, BoucleDeJeu.java, Input.java, Commande.java
+C. Les Éléments Visuels (Assets et UI)
+ObjetBase.java, Sprite.java, Texte.java
+Bouton.java, Checkbox.java, Slider.java
+Scene.java, Projet.java, EcranDemarrage.java
+D. Le Système Nodal (Logique visuelle)
+Blueprint.java, NoeudBase.java, Port.java, Variable.java
+NoeudEventStart.java, NoeudActionDeplacer.java
+E. Le Dictionnaire et les Données (Sauvegarde/Chargement)
+SceneData.java, ObjetSceneData.java, BlueprintData.java, NoeudData.java, LienData.java
+SauvegardeScene.java, SauvegardeLogique.java
+Fichiers de données : project.json, scene_menu_principal.json, logique_bouton_jouer.json
+Ton architecture est impressionnante de complétude. Nous avons déjà fiabilisé les catégories C et E. Je vois que tu as déjà anticipé la suite en créant NoeudEventStart.java.

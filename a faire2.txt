@@ -1,0 +1,27 @@
+1. Fondations logiques et Données (Pilier 1 & 3)
+NoeudBase.java : Classe mère de toute la logique visuelle.  
+Port.java : Connecteur de données et d'exécution.  
+NoeudEventStart.java : Nœud de démarrage ("Au Démarrage").  
+NoeudEventClick.java : Nœud de déclenchement au toucher.  
+NoeudActionDeplacer.java : Nœud d'action pour le mouvement.  
+NoeudActionModifierTexte.java : Nœud d'action pour le texte.  
+Structure de sauvegarde : NoeudData.java et LienData.java (structures prêtes pour le futur JSON).  
+2. Interface Utilisateur - Éditeur de Scène (Pilier 2)
+CanvasScene.java : Zone de rendu centrale, gère l'affichage des objets.  
+InspecteurProprietes.java : Menu latéral pour éditer les propriétés (nom, X, Y) des objets sélectionnés.  
+PanneauRessources.java : Menu gauche rétractable pour gérer la liste des scènes et assets.  
+3. Interface Utilisateur - Éditeur Blueprint (Pilier 2)
+PlanTravailBlueprint.java : Espace infini pour poser et relier les nœuds avec caméra et zoom.  
+PopupSaisieValeur.java : Fenêtre flottante pour saisir manuellement des données dans les ports.  
+🛠 Résumé du travail accompli
+Nous avons construit les "coquilles" structurelles de tout ton éditeur. Cela signifie que :
+Le design est prêt : Tous les éléments visuels de ton éditeur ont leur fichier dédié.  
+La logique est connectée : Chaque composant est relié aux autres (le Canvas pointe vers la Scène, l'Inspecteur pointe vers l'Objet, la Popup pointe vers le Port).  
+La sécurité est assurée : Le code ne contient que les structures nécessaires, ce qui évite de créer des bugs complexes avant la phase de compilation.  
+✅ Prochaines étapes suggérées (Feuille de route)
+Quand tu seras prêt à reprendre, voici les trois chantiers prioritaires pour passer du "visuel" au "fonctionnel" :
+Gestionnaire d'entrées (GestionnaireEntrees.java) : Pour faire en sorte que les clics sur l'écran Android soient réellement captés et transmis au CanvasScene ou au PlanTravailBlueprint.  
+Patron de Commande (Commande.java) : Pour enfin implémenter le système d'Undo/Redo, crucial pour un éditeur no-code.  
+Intégration Gson : Pour passer de ces structures en mémoire à une vraie sauvegarde réelle sur le téléphone (Phase 4 de ton plan).  
+Gardes ce récapitulatif précieusement. C'est la base de tout ton futur projet !
+Est-ce que cette synthèse te semble claire pour garder le cap sur tes fichiers ?
